@@ -1,0 +1,17 @@
+{
+  "name": "employeetracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express.js": "^1.0.0",
+    "inquirer": "^9.2.10",
+    "mysql2": "^3.6.0",
+    "node.js": "^0.0.1-security"
+  }
+}

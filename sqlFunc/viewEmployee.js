@@ -1,5 +1,5 @@
 
-const viewEmployee(db) => {
+function viewEmployee(db) {
     db.query('SELECT * FROM employee', (err, results) => {
         if (err){
             console.log(err);

@@ -1,5 +1,5 @@
 
-const viewDepart(db) => {
+function viewDepart(db) {
     db.query('SELECT * FROM department', (err, results) => {
         if (err){
             console.log(err);

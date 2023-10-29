@@ -1,6 +1,5 @@
 
 
-
 function viewRoles(db) {
     db.query('SELECT * FROM roles', (err, results) => {
         if (err){

@@ -1,3 +1,4 @@
+const init = require("../server");
 
 function viewDepart(db) {
     db.query('SELECT * FROM department', (err, results) => {
@@ -5,7 +6,6 @@ function viewDepart(db) {
             console.log(err);
         } 
         console.log(results);
-        
     });
 };
 

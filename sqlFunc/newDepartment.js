@@ -1,7 +1,14 @@
 
-//const newDepart(db,answers) => {
-    //let newId = db.query('SELECT COUNT(id) FROM department');
-    //db.query('INSERT INTO department (id,label) VALUES (${}')
-//}
 
-//module.exports =newDepart;
+function newDepart(db, answers) {
+    let newID = `INSERT INTO department (label) VALUES ('${answers.name}');`;
+    db.query(newID, (err,results)=>{
+        if(err){
+            console.log(err)
+        } else{
+            console.log("Department add to the database")
+        }
+    })
+}
+
+module.exports = newDepart;

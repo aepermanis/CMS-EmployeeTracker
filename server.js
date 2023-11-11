@@ -1,9 +1,13 @@
 var inquirer = require('inquirer');
 const mysql = require('mysql2');
 const express = require('express');
-//const {viewRoles} = require('./sqlFunc/viewRoles');
-const {viewDepart} = require('./sqlFunc/viewDepartment');
-const {viewEmployee} = require('./sqlFunc/viewEmployee');
+const newDepart = require('./sqlFunc/newDepartment');
+const newRole = require('./sqlFunc/newRole');
+const newEmployee = require('./sqlFunc/newEmployee');
+const viewDepart = require('./sqlFunc/viewDepartment');
+const viewRoles = require('./sqlFunc/viewRoles');
+const viewEmployee = require('./sqlFunc/viewEmployee');
+const updateEmployee = require('./sqlFunc/updateEmployee');
 
 
 const PORT = process.env.PORT || 3001;
@@ -28,31 +32,103 @@ const question = [
     message: "What would you like to do?",
     type: 'list',
     choices: ['View Departments', 'View Roles', 'View Employees', 'Add Department', 'Add Role', 'Add Employee','Update Employee', 'Exit']
+  },
+]
+
+const departmentQ = [
+  {
+    name: 'name',
+    message: "Please enter the name of the new department",
+    type: "input"
+  }
+]
+
+const addRoleQ = [
+  {
+    name: 'name',
+    message: "Please enter the name of the role you would like to add",
+    type: 'input'
+  },
+  {
+    name: 'salary',
+    message: "Salary of the position",
+    type: "input"
+  },
+  {
+    name: 'department',
+    message: "Department id number",
+    type: "input"
+  }
+]
+
+const Employee = [
+  {
+    name: 'FirstName',
+    message: "First Name",
+    type: 'Input'
+  },
+  {
+    name: "LastName",
+    message: "Last Name",
+    type: 'input'
+  },
+  {
+    name: 'role',
+    message: "please enter the role id number for this employee",
+    type: "input"
+  },
+  {
+    name: "manager",
+    message: "please enter the employee id of their manager",
+    type: "input"
+  }
+]
+
+const update = [
+  {
+    name: 'id',
+    message: 'please enter the employee id you would like to update',
+    type: "input"
+  },
+  {
+    name: "role",
+    message: 'please enter the role id of their new role',
+    type: 'input'
   }
 ]
 
 function init() {
+
 inquirer.prompt(question).then((answers)=>{
   if(answers.action === 'View Departments'){
     viewDepart(db);
+    init()
   } else if (answers.action === 'View Roles'){
-    function viewRoles(db) {
-      db.query('DESCRIBE roles', (err, results) => {
-          if (err){
-              console.log(err);
-          } 
-          results.render; 
-      });
-  };
     viewRoles(db);
+    init()
   } else if (answers.action === 'View Employees'){
     viewEmployee(db);
+    init()
+  }else if (answers.action === 'Add Department'){
+    inquirer.prompt(departmentQ).then((answers1) => {
+      newDepart(db,answers1);
+      init()
+    });
   }else if (answers.action === 'Add Role'){
-    console.log("WORK IN PROGRESS")
+    inquirer.prompt(addRoleQ).then((answers2)=>{
+      newRole(db,answers2);
+      init()
+    })
   }else if (answers.action === 'Add Employee'){
-    console.log('WORK IN PROGRESS')
-  }else if (answers.actions === 'Updated Employee'){
-    console.log('WORK IN PROGRESS')
+    inquirer.prompt(Employee).then((answers3)=>{
+      newEmployee(db,answers3);
+      init()
+    })
+  }else if (answers.action === 'Update Employee'){
+    inquirer.prompt(update).then((answers4) => {
+      updateEmployee(db,answers4);
+      init();
+    });
   }else{
     console.log('Goodbye!')
   };
@@ -69,3 +145,4 @@ app.use((req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
+
